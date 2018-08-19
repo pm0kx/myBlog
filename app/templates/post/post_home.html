@@ -1,0 +1,82 @@
+<!-- Replace the TITLE of template base.html -->
+
+{% extends "common/base.html" %}
+{% block title %}Fans Blog{% endblock %}
+
+{% block styles %}　
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
+{% endblock styles %}
+
+<!-- Replace the BODY of template base.html -->
+{% block content %}
+<!-- The data object from view function: `main()` -->
+
+<div class="col-xs-12 col-sm-12">
+  <div class="row user">
+    <div class="col-md-12">
+      <div class="tab-content">
+        <div class="tab-pane active" id="user-timeline">
+          <div class="timeline-post">
+            <div class="post-media"><a href="#"><img
+                    src="{{ url_for('static', filename='images/user/p1.jpg') }}"></a>
+              <div class="content">
+                <h5><a href="#">John Doe</a></h5>
+                <p class="text-muted">
+                  <small>2 January at 9:30</small>
+                </p>
+              </div>
+            </div>
+            <div class="post-content">
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+                dolore magna aliqua. Ut enim ad minim veniam, quis tion ullamco laboris nisi ut aliquip ex ea commodo
+                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+                pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
+                id est laborum.</p>
+            </div>
+            <ul class="post-utility">
+              <li class="likes"><a href="#"><i class="fa fa-fw fa-lg fa-thumbs-o-up"></i>Like</a></li>
+              <li class="shares"><a href="#"><i class="fa fa-fw fa-lg fa-share"></i>Share</a></li>
+              <li class="comments"><i class="fa fa-fw fa-lg fa-comment-o"></i> 5 Comments</li>
+            </ul>
+          </div>
+
+          {% for post in posts.items %}
+          <div class="timeline-post">
+            <div class="post-media"><a href="#"><img
+                    src="https://s3.amazonaws.com/uifaces/faces/twitter/jsa/48.jpg"></a>
+              <div class="content">
+                <h5><a href="{{ url_for('post.post_detial', post_id=post.id) }}">{{ post.title }}</a></h5>
+                <p class="text-muted">
+                  <small>{{ post.publish_date }}</small>
+                </p>
+              </div>
+            </div>
+            <div class="post-content">
+              <p>
+                {{ post.text | truncate(255) | safe }}
+              </p>
+            </div>
+            <ul class="post-utility">
+              <li class="likes"><a href="#"><i class="fa fa-fw fa-lg fa-thumbs-o-up"></i>Like</a></li>
+              <li class="shares"><a href="#"><i class="fa fa-fw fa-lg fa-share"></i>Share</a></li>
+              <li class="comments"><a href="{{ url_for('post.add_comment', post_id=post.id) }}"
+                                      class="tooltip-test" data-toggle="tooltip" title="comment view">
+                <i class="fa fa-fw fa-lg fa-comment-o"></i> 5 Comments</a></li>
+            </ul>
+          </div>
+          {% endfor %}
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Call the Macro: `render_pagination` from base.html -->
+    {{ render_pagination(posts, 'post.list') }}
+  </div>
+</div>
+
+{% endblock %}
+
+
+

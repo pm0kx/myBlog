@@ -1,0 +1,150 @@
+
+1.anaconda虚拟环境设置
+
+conda常用的命令。
+
+    1）conda list查看安装了哪些包。
+
+    2）conda env list或 conda info -e 查看当前存在哪些虚拟环境
+
+    3）conda update conda 检查更新当前conda
+
+
+创建python虚拟环境。
+
+     使用 conda create -n flask python=3.6
+
+     flask文件可以在Anaconda安装目录envs文件下找到。
+
+
+对虚拟环境中安装额外的包。
+
+    使用命令conda install -n your_env_name [package]即可安装package到your_env_name中
+
+    比如要在名为mshijie的虚拟环境中安装theano，就可以使用命令：conda install -n mashijie theano
+
+
+使用激活(或切换不同python版本)的虚拟环境。
+
+    打开命令行输入python --version可以检查当前python的版本。
+
+    使用如下命令即可 激活你的虚拟环境(即将python的版本改变)。
+
+    Linux:  source activate flask 每次使用前都要切换到自己的环境中
+
+    Windows: activate your_env_name(虚拟环境名称)
+
+    这是再使用python --version可以检查当前python版本是否为想要的。
+
+
+
+关闭虚拟环境(即从当前环境退出返回使用PATH环境中的默认python版本)。
+
+   使用如下命令即可。
+
+   Linux: source deactivate
+
+   比如现在要退出名为mashijie的虚拟环境：source deactivate即可
+
+   Windows: deactivate
+
+  熟练掌握便可以在各个虚拟环境中随意切换了。
+
+
+
+删除虚拟环境。
+
+   使用命令conda remove -n your_env_name(虚拟环境名称) --all， 即可删除。
+
+
+删除环境中的某个包。
+
+   使用命令conda remove --name $your_env_name  $package_name 即可。
+
+2.manage shell
+  create tables
+  python manage.py shell
+  >>db.create_all()
+  每新增一个modles class 就要在manage,py中添加并返回
+
+3.安装包后要更新requirements.txt
+  pip freeze > requirements.txt
+
+4.WTF 的安全措施的执行需要我们提供一个*安全密钥，用于生成加密的签名，在所有需要验证真实性的所有地方都会用到这个签名。
+  (flask) [mint FansBlog] # cat /dev/urandom | tr -cd 'a-f0-9' | head -c 32
+
+5.数据库更新和迁移
+ 开始第一次跟踪
+ (env) [root@flask-dev JmilkFan-s-Blog]# python manage.py db migrate -m "Initial migration"
+
+ 将记录文件应用到数据库中(实时升级数据库结构)
+ (env) [root@flask-dev JmilkFan-s-Blog]# python manage.py db upgrade
+ 参考：https://blog.csdn.net/jmilk/article/details/53241361
+
+6.开发所用的账户
+  账号 admin   123123
+  角色  default
+
+7.安装 RabbitMQ：http://www.rabbitmq.com/install-debian.html
+   apt-get install rabbitmq-server
+   /etc/init.d/rabbitmq-server start
+
+   新增管理员用户
+    sudo rabbitmqctl add_user admin admin
+    sudo rabbitmqctl set_user_tags admin administrator
+
+   打开管理页面
+    sudo rabbitmq-plugins enable rabbitmq_management
+
+    用刚设置的账户登录管理页面
+     http://127.0.0.1:15672
+
+8.安装postgresql
+   # sudo apt-get update && sudo apt-get upgrade
+   # apt-get install postgresql postgresql-contrib
+   # su - postgres
+   $ createdb api
+   $ createuser andrew --pwprompt #创建用户
+   $ psql -d api -c "ALTER USER andrew WITH PASSWORD 'api';"
+
+9.快速环境准备
+   安装以下包即可，其余会依赖安装
+   Flask
+Flask-AutoIndex
+Flask-Babel
+Flask-Bcrypt
+Flask-Cache
+Flask-Celery-Helper
+Flask-HTTPAuth
+Flask-Login
+Flask-Mail
+Flask-Migrate
+flask-nav
+Flask-OpenID
+Flask-Principal
+Flask-REST-JSONAPI
+Flask-RESTful
+Flask-Script
+Flask-Silk
+Flask-SQLAlchemy
+Flask-WTF
+
+
+
+
+
+
+参考资料：
+
+用flask开发个人博客
+https://blog.csdn.net/hyman_c/article/category/6560677/2
+https://blog.csdn.net/hyman_c/article/category/6560677/1
+
+
+用 Flask 来写个轻博客
+https://blog.csdn.net/column/details/13463.html?&page=2
+https://blog.csdn.net/column/details/13463.html?&page=1
+
+
+Flask大型教程项目
+http://www.pythondoc.com/flask-mega-tutorial/index.html

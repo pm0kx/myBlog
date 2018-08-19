@@ -1,0 +1,40 @@
+2018-07-27 21:12:10,931 - home_view - INFO : send  a test email .
+2018-07-27 21:12:11,015 - mails - INFO : msg:Content-Type: multipart/mixed; boundary="===============2195697467205568556=="
+MIME-Version: 1.0
+Subject: [Flask] TEST MAIL
+From: zhu14623@163.com
+To: zhu14623@163.com
+Date: Fri, 27 Jul 2018 21:12:11 +0800
+Message-ID: <153269713093.4456.8045817274873764955@ZW-503-PC>
+
+--===============2195697467205568556==
+Content-Type: multipart/alternative; boundary="===============8166802222759271909=="
+MIME-Version: 1.0
+
+--===============8166802222759271909==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+
+ÓÊ¼þÄÚÈÝ
+--===============8166802222759271909==
+Content-Type: text/html; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+
+<p> test </p>
+--===============8166802222759271909==--
+
+--===============2195697467205568556==--
+
+2018-07-27 21:12:11,045 - mails - INFO : start send mail
+2018-07-27 21:16:27,389 - home_view - INFO : send  a test email .
+2018-07-27 21:16:27,419 - mails - INFO : start send mail
+2018-07-27 21:23:28,797 - home_view - INFO : send  a test email .
+2018-07-27 21:23:28,847 - mails - INFO : start send mail
+2018-07-27 21:28:46,187 - form - INFO : start check_validate !
+2018-07-27 21:28:46,636 - form - INFO : validate pass
+2018-07-27 21:28:47,251 - home_view - INFO : send  a confirmation email .
+2018-07-27 21:28:47,277 - mails - INFO : start send mail
+2018-07-27 21:29:16,551 - form - INFO : start check_validate !
+2018-07-27 21:29:16,558 - form - INFO : Email already registered.

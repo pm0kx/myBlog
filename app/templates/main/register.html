@@ -1,0 +1,137 @@
+<!-- Replace the TITLE of template base.html -->
+
+{% extends "common/base.html" %}
+{% block title %}register{% endblock %}
+
+{% block styles %}　
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='city-picker/css/city-picker.css') }}">
+{% endblock styles %}
+
+<!-- Replace the BODY of template base.html -->
+{% block content %}
+<!-- The data object from view function: `main()` -->
+<div class="row">
+  <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
+    <div class="page-header">
+      <h1>please register</h1>
+    </div>
+
+    <div class="col-lg-12">
+      <!-- Set the form -->
+      <form method="POST" action="{{ url_for('main.register')}}">
+        {{ form.hidden_tag() }}
+
+        <div class="form-group">
+          <!-- Field: `name` label -->
+          {{ form.username.label }}
+          {% if form.username.errors %}
+          {% for e in form.username.errors %}
+          <p class="help-block">{{ e }}</p>
+          {% endfor %}
+          {% endif %}
+          {{ form.username(class_="form-control") }}
+        </div>
+        <div class="form-group">
+          <!-- Field: `email` label -->
+          {{ form.email.label }}
+          {% if form.email.errors %}
+          {% for e in form.email.errors %}
+          <p class="help-block">{{ e }}</p>
+          {% endfor %}
+          {% endif %}
+          {{ form.email(class_="form-control") }}
+        </div>
+        <div class="form-group">
+          {{ form.nickname.label }}
+          {% if form.nickname.errors %}
+          {% for e in form.nickname.errors %}
+          <p class="help-block">{{ e }}</p>
+          {% endfor %}
+          {% endif %}
+          {{ form.nickname(class_='form-control') }}
+        </div>
+        <div>
+          {{ form.fullname.label }}
+          {% if form.fullname.errors %}
+          {% for e in form.fullname.errors %}
+          <p class="help-block">{{ e }}</p>
+          {% endfor %}
+          {% endif %}
+          {{ form.fullname(class_='form-control') }}
+        </div>
+
+        <div class="form-group">
+          <div style="position: relative;">
+            {{ form.address.label }} {% if form.address.errors %} {% for e in form.address.errors %}
+            <p class="help-block">{{ e }}</p>
+            {% endfor %} {% endif %} {{ form.address(class_='form-control') }}
+          </div>
+        </div>
+
+        <div>
+          {{ form.birthday.label }}
+          {% if form.birthday.errors %}
+          {% for e in form.birthday.errors %}
+          <p class="help-block">{{ e }}</p>
+          {% endfor %}
+          {% endif %}
+          {{ form.birthday(class_='form-control') }}
+        </div>
+
+        <div class="form-group">
+          {{form.gender.label}}
+          {% if form.gender.errors %}
+             {% for e in form.gender.errors %}
+                <p class="help-block">{{ e }}</p>
+             {% endfor %}
+          {% endif %}
+          {{form.gender(class_='form-control')}}
+        </div>
+
+        <input class="btn btn-primary" style="margin-top: 20px;" type="submit" value="注册">
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="{{ url_for('static', filename='bootstrap-datetimepicker/js/bootstrap-datetimepicker.js') }}"></script>
+<script src="{{ url_for('static', filename='bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js') }}"></script>
+<script src="{{ url_for('static', filename='city-picker/js/city-picker.data.js') }}"></script>
+<script src="{{ url_for('static', filename='city-picker/js/city-picker.js') }}"></script>
+
+<!--<script src="{{ url_for('static', filename='distpicker/js/distpicker.data.js') }}"></script>
+<script src="{{ url_for('static', filename='distpicker/js/distpicker.js') }}"></script>
+<script src="{{ url_for('static', filename='distpicker/js/distpicker.js') }}"></script>  -->
+
+<script>
+
+      $(function () {
+        'use strict';
+        var $citypicker = $('#address');
+
+        $citypicker.citypicker({
+          province: '陕西省',
+          city: '西安市',
+          district: '雁塔区'
+        });
+
+        $('#birthday').datetimepicker({
+         format: 'yyyy-mm-dd hh:ii',
+         language: 'zh-CN',
+         //autoclose: true,     //选择完成后自动关闭
+         //todayBtn: true,        //显示今天按钮
+         weekStart: 1,        //周的开始时间默认0周日
+         minView: 2,      //时间选择视图【0：小时，1：天，2：月，3：年,4：十年】
+        });
+      });
+
+
+</script>
+{% endblock %}
+
+

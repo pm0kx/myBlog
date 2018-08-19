@@ -1,0 +1,426 @@
+2018-07-25 22:04:45,741 - form - INFO : Email already registered.
+2018-07-25 22:05:55,247 - form - INFO : start check_validate !
+2018-07-25 22:05:55,328 - form - INFO : Email already registered.
+2018-07-25 22:07:03,739 - form - INFO : start check_validate !
+2018-07-25 22:07:03,745 - form - INFO : Email already registered.
+2018-07-25 22:16:43,646 - form - INFO : start check_validate !
+2018-07-25 22:16:44,115 - form - INFO : validate pass
+2018-07-25 22:16:44,485 - home_view - INFO : get form data ok.
+2018-07-25 22:22:59,272 - form - INFO : start check_validate !
+2018-07-25 22:22:59,284 - form - INFO : Email already registered.
+2018-07-25 22:23:26,177 - form - INFO : start check_validate !
+2018-07-25 22:23:26,187 - form - INFO : validate pass
+2018-07-25 22:23:26,507 - home_view - INFO : get form data ok.
+2018-07-25 22:25:14,420 - form - INFO : start check_validate !
+2018-07-25 22:25:14,428 - form - INFO : Email already registered.
+2018-07-25 22:25:32,330 - form - INFO : start check_validate !
+2018-07-25 22:25:32,342 - form - INFO : validate pass
+2018-07-25 22:25:32,660 - home_view - INFO : get form data ok.
+2018-07-25 22:30:01,294 - form - INFO : start check_validate !
+2018-07-25 22:30:01,304 - form - INFO : validate pass
+2018-07-25 22:30:01,788 - home_view - INFO : send  a confirmation email .
+2018-07-25 22:42:01,016 - home_view - INFO : send  a test email .
+2018-07-25 22:42:01,058 - home_view - INFO : send  a test email .
+2018-07-25 22:42:42,109 - home_view - INFO : send  a test email .
+2018-07-25 22:42:43,416 - home_view - INFO : send  a test email .
+2018-07-25 22:42:44,404 - home_view - INFO : send  a test email .
+2018-07-25 22:46:19,665 - home_view - INFO : send  a test email .
+2018-07-25 22:47:15,713 - home_view - INFO : send  a test email .
+2018-07-25 22:47:15,761 - mails - INFO : app:
+2018-07-25 22:47:15,832 - mails - INFO : msg:Content-Type: multipart/mixed; boundary="===============3849758815535990947=="
+MIME-Version: 1.0
+Subject: [Flask] TEST MAIL
+From: =?utf-8?q?Flask_Admin?= <zhu14623@163.com>
+To: zhu14623@163.com
+Date: Wed, 25 Jul 2018 22:47:15 +0800
+Message-ID: <153253003573.3880.14206194116726472306@ZW-503-PC>
+
+--===============3849758815535990947==
+Content-Type: multipart/alternative; boundary="===============8856418248682491359=="
+MIME-Version: 1.0
+
+--===============8856418248682491359==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+
+邮件内容
+--===============8856418248682491359==
+Content-Type: text/html; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+
+<p>Dear ,</p>
+<p>Welcome to <b>Flasky</b>!</p>
+<p>To confirm your account please <a href="http://127.0.0.1:8089/main/confirm/token">click here</a>.</p>
+<p>Alternatively, you can paste the following link in your browser's address bar:</p>
+<p>http://127.0.0.1:8089/main/confirm/token</p>
+<p>Sincerely,</p>
+<p>The Flasky Team</p>
+<p><small>Note: replies to this email address are not monitored.</small></p>
+--===============8856418248682491359==--
+
+--===============3849758815535990947==--
+
+2018-07-25 22:47:15,875 - mails - INFO : start send mail
+2018-07-25 22:48:08,909 - home_view - INFO : send  a test email .
+2018-07-25 22:48:09,014 - mails - INFO : msg:Content-Type: multipart/mixed; boundary="===============5615891181563565519=="
+MIME-Version: 1.0
+Subject: [Flask] TEST MAIL
+From: =?utf-8?q?Flask_Admin?= <zhu14623@163.com>
+To: zhu14623@163.com
+Date: Wed, 25 Jul 2018 22:48:09 +0800
+Message-ID: <153253008891.9812.11372570445496717400@ZW-503-PC>
+
+--===============5615891181563565519==
+Content-Type: multipart/alternative; boundary="===============6092400246800838989=="
+MIME-Version: 1.0
+
+--===============6092400246800838989==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+
+邮件内容
+--===============6092400246800838989==
+Content-Type: text/html; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+
+<p>Dear ,</p>
+<p>Welcome to <b>Flasky</b>!</p>
+<p>To confirm your account please <a href="http://127.0.0.1:8089/main/confirm/token">click here</a>.</p>
+<p>Alternatively, you can paste the following link in your browser's address bar:</p>
+<p>http://127.0.0.1:8089/main/confirm/token</p>
+<p>Sincerely,</p>
+<p>The Flasky Team</p>
+<p><small>Note: replies to this email address are not monitored.</small></p>
+--===============6092400246800838989==--
+
+--===============5615891181563565519==--
+
+2018-07-25 22:48:09,016 - mails - INFO : start send mail
+2018-07-25 22:49:17,455 - home_view - INFO : send  a test email .
+2018-07-25 22:49:17,477 - mails - INFO : msg:Content-Type: multipart/mixed; boundary="===============8671798023178588664=="
+MIME-Version: 1.0
+Subject: [Flask] TEST MAIL
+From: =?utf-8?q?Flask_Admin?= <zhu14623@163.com>
+To: zhu14623@163.com
+Date: Wed, 25 Jul 2018 22:49:17 +0800
+Message-ID: <153253015746.9812.913102541854967273@ZW-503-PC>
+
+--===============8671798023178588664==
+Content-Type: multipart/alternative; boundary="===============1707831065395828563=="
+MIME-Version: 1.0
+
+--===============1707831065395828563==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+
+邮件内容
+--===============1707831065395828563==
+Content-Type: text/html; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+
+<p>Dear ,</p>
+<p>Welcome to <b>Flasky</b>!</p>
+<p>To confirm your account please <a href="http://127.0.0.1:8089/main/confirm/token">click here</a>.</p>
+<p>Alternatively, you can paste the following link in your browser's address bar:</p>
+<p>http://127.0.0.1:8089/main/confirm/token</p>
+<p>Sincerely,</p>
+<p>The Flasky Team</p>
+<p><small>Note: replies to this email address are not monitored.</small></p>
+--===============1707831065395828563==--
+
+--===============8671798023178588664==--
+
+2018-07-25 22:49:17,480 - mails - INFO : start send mail
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2018-07-25 22:51:08,515 - home_view - INFO : send  a test email .
+2018-07-25 22:51:08,558 - mails - INFO : msg:Content-Type: multipart/mixed; boundary="===============3454157634888501141=="
+MIME-Version: 1.0
+Subject: [Flask] TEST MAIL
+From: =?utf-8?q?Flask_Admin?= <zhu14623@163.com>
+To: zhu14623@163.com
+Date: Wed, 25 Jul 2018 22:51:08 +0800
+Message-ID: <153253026853.9812.14422277502906932666@ZW-503-PC>
+
+--===============3454157634888501141==
+Content-Type: multipart/alternative; boundary="===============6611643394180469650=="
+MIME-Version: 1.0
+
+--===============6611643394180469650==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+
+邮件内容
+--===============6611643394180469650==
+Content-Type: text/html; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+
+<p>Dear ,</p>
+<p>Welcome to <b>Flasky</b>!</p>
+<p>To confirm your account please <a href="http://127.0.0.1:8089/main/confirm/token">click here</a>.</p>
+<p>Alternatively, you can paste the following link in your browser's address bar:</p>
+<p>http://127.0.0.1:8089/main/confirm/token</p>
+<p>Sincerely,</p>
+<p>The Flasky Team</p>
+<p><small>Note: replies to this email address are not monitored.</small></p>
+--===============6611643394180469650==--
+
+--===============3454157634888501141==--
+
+2018-07-25 22:51:08,573 - mails - INFO : start send mail
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2018-07-25 22:53:46,579 - home_view - INFO : send  a test email .
+2018-07-25 22:53:46,621 - mails - INFO : msg:Content-Type: multipart/mixed; boundary="===============8143412781007119547=="
+MIME-Version: 1.0
+Subject: [Flask] TEST MAIL
+From: zhu14623@163.com
+To: zhu14623@163.com
+Date: Wed, 25 Jul 2018 22:53:46 +0800
+Message-ID: <153253042660.5084.2607433412087872223@ZW-503-PC>
+
+--===============8143412781007119547==
+Content-Type: multipart/alternative; boundary="===============4031702192614534811=="
+MIME-Version: 1.0
+
+--===============4031702192614534811==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+
+邮件内容
+--===============4031702192614534811==
+Content-Type: text/html; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+
+<p>Dear ,</p>
+<p>Welcome to <b>Flasky</b>!</p>
+<p>To confirm your account please <a href="http://127.0.0.1:8089/main/confirm/token">click here</a>.</p>
+<p>Alternatively, you can paste the following link in your browser's address bar:</p>
+<p>http://127.0.0.1:8089/main/confirm/token</p>
+<p>Sincerely,</p>
+<p>The Flasky Team</p>
+<p><small>Note: replies to this email address are not monitored.</small></p>
+--===============4031702192614534811==--
+
+--===============8143412781007119547==--
+
+2018-07-25 22:53:46,623 - mails - INFO : start send mail
+2018-07-25 22:53:47,256 - home_view - INFO : send  a test email .
+2018-07-25 22:53:47,339 - mails - INFO : msg:Content-Type: multipart/mixed; boundary="===============6580359233992584726=="
+MIME-Version: 1.0
+Subject: [Flask] TEST MAIL
+From: zhu14623@163.com
+To: zhu14623@163.com
+Date: Wed, 25 Jul 2018 22:53:47 +0800
+Message-ID: <153253042725.5084.611258780913922475@ZW-503-PC>
+
+--===============6580359233992584726==
+Content-Type: multipart/alternative; boundary="===============3103656619031900717=="
+MIME-Version: 1.0
+
+--===============3103656619031900717==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+
+邮件内容
+--===============3103656619031900717==
+Content-Type: text/html; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+
+<p>Dear ,</p>
+<p>Welcome to <b>Flasky</b>!</p>
+<p>To confirm your account please <a href="http://127.0.0.1:8089/main/confirm/token">click here</a>.</p>
+<p>Alternatively, you can paste the following link in your browser's address bar:</p>
+<p>http://127.0.0.1:8089/main/confirm/token</p>
+<p>Sincerely,</p>
+<p>The Flasky Team</p>
+<p><small>Note: replies to this email address are not monitored.</small></p>
+--===============3103656619031900717==--
+
+--===============6580359233992584726==--
+
+2018-07-25 22:53:47,341 - mails - INFO : start send mail
+2018-07-25 22:53:47,884 - home_view - INFO : send  a test email .
+2018-07-25 22:53:47,923 - mails - INFO : msg:Content-Type: multipart/mixed; boundary="===============6661492587291363998=="
+MIME-Version: 1.0
+Subject: [Flask] TEST MAIL
+From: zhu14623@163.com
+To: zhu14623@163.com
+Date: Wed, 25 Jul 2018 22:53:47 +0800
+Message-ID: <153253042788.5084.15958753685554427534@ZW-503-PC>
+
+--===============6661492587291363998==
+Content-Type: multipart/alternative; boundary="===============8248656787714869450=="
+MIME-Version: 1.0
+
+--===============8248656787714869450==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+
+邮件内容
+--===============8248656787714869450==
+Content-Type: text/html; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+
+<p>Dear ,</p>
+<p>Welcome to <b>Flasky</b>!</p>
+<p>To confirm your account please <a href="http://127.0.0.1:8089/main/confirm/token">click here</a>.</p>
+<p>Alternatively, you can paste the following link in your browser's address bar:</p>
+<p>http://127.0.0.1:8089/main/confirm/token</p>
+<p>Sincerely,</p>
+<p>The Flasky Team</p>
+<p><small>Note: replies to this email address are not monitored.</small></p>
+--===============8248656787714869450==--
+
+--===============6661492587291363998==--
+
+2018-07-25 22:53:47,925 - mails - INFO : start send mail
+2018-07-25 22:58:02,597 - home_view - INFO : send  a test email .
+2018-07-25 22:58:02,711 - mails - INFO : msg:Content-Type: multipart/mixed; boundary="===============5115573233942801778=="
+MIME-Version: 1.0
+Subject: [Flask] TEST MAIL
+From: zhu14623@163.com
+To: zhu14623@163.com
+Date: Wed, 25 Jul 2018 22:58:02 +0800
+Message-ID: <153253068260.4612.6359333055764485812@ZW-503-PC>
+
+--===============5115573233942801778==
+Content-Type: multipart/alternative; boundary="===============5992951102967620533=="
+MIME-Version: 1.0
+
+--===============5992951102967620533==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+
+邮件内容
+--===============5992951102967620533==
+Content-Type: text/html; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+
+<p>Dear ,</p>
+<p>Welcome to <b>Flasky</b>!</p>
+<p>To confirm your account please <a href="http://127.0.0.1:8089/main/confirm/token">click here</a>.</p>
+<p>Alternatively, you can paste the following link in your browser's address bar:</p>
+<p>http://127.0.0.1:8089/main/confirm/token</p>
+<p>Sincerely,</p>
+<p>The Flasky Team</p>
+<p><small>Note: replies to this email address are not monitored.</small></p>
+--===============5992951102967620533==--
+
+--===============5115573233942801778==--
+
+2018-07-25 22:58:02,714 - mails - INFO : start send mail
+2018-07-25 22:58:45,434 - home_view - INFO : send  a test email .
+2018-07-25 22:58:45,454 - mails - INFO : msg:Content-Type: multipart/mixed; boundary="===============5601532931689961009=="
+MIME-Version: 1.0
+Subject: [Flask] TEST MAIL
+From: zhu14623@163.com
+To: zhu14623@163.com
+Date: Wed, 25 Jul 2018 22:58:45 +0800
+Message-ID: <153253072543.4612.12255855179813205673@ZW-503-PC>
+
+--===============5601532931689961009==
+Content-Type: multipart/alternative; boundary="===============5087487939691552846=="
+MIME-Version: 1.0
+
+--===============5087487939691552846==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+
+邮件内容
+--===============5087487939691552846==
+Content-Type: text/html; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+
+<p>Dear ,</p>
+<p>Welcome to <b>Flasky</b>!</p>
+<p>To confirm your account please <a href="http://127.0.0.1:8089/main/confirm/token">click here</a>.</p>
+<p>Alternatively, you can paste the following link in your browser's address bar:</p>
+<p>http://127.0.0.1:8089/main/confirm/token</p>
+<p>Sincerely,</p>
+<p>The Flasky Team</p>
+<p><small>Note: replies to this email address are not monitored.</small></p>
+--===============5087487939691552846==--
+
+--===============5601532931689961009==--
+
+2018-07-25 22:58:45,456 - mails - INFO : start send mail

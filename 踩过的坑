@@ -1,0 +1,30 @@
+关于使用SQLALCHEMY 出现warning 的坑
+UserWarning: Neither SQLALCHEMY_DATABASE_URI nor SQLALCHEMY_BINDS is set. Defaulting SQLALCHEMY_DATABASE_URI to "sqlite:///:memory:".
+  'Neither SQLALCHEMY_DATABASE_URI nor SQLALCHEMY_BINDS is set. '
+
+  FSADeprecationWarning: SQLALCHEMY_TRACK_MODIFICATIONS adds significant overhead and will be disabled by default in the future.  Set it to True or False to suppress this warning.
+  'SQLALCHEMY_TRACK_MODIFICATIONS adds significant overhead and '
+
+  解决方案：
+db = SQLAlchemy()
+from .models import Auth,Role,User,Group,Menu
+
+def create_app():
+    app = Flask(__name__)
+    app.config.from_object(Config)# 这里在初始化db之前需要先加载配置文件，问题解决
+    Config.init_app(app)
+    db.init_app(app)
+    from .admin import admin as admin_blueprint
+    app.register_blueprint(admin_blueprint,url_prefix = '/admin')
+    return app
+
+
+    from .jinja2ext import CacheExtension, JINJA_CACHE_ATTR_NAME
+  File "/home/zhu/miniconda3/envs/flask/lib/python3.6/site-packages/flask_cache/jinja2ext.py", line 33, in <module>
+    from flask.ext.cache import make_template_fragment_key
+ModuleNotFoundError: No module named 'flask.ext'
+
+解决方案：
+from flask.ext.cache import make_template_fragment_key
+改为
+from flask_cache import make_template_fragment_key

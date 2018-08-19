@@ -1,0 +1,26 @@
+beforeSend: function () {
+  //请求前
+},
+success: function (result) {
+
+  //请求成功时
+  if (result.code ==500) {
+    alert(result.msg);
+  }
+  
+  if (result.code ==200) {
+    alert(result.msg);
+  }
+
+
+  $('body').on('hidden.bs.modal', '.modal', function () {
+      $(this).removeData('bs.modal');
+  });
+},
+complete: function () {
+  //请求结束时
+  $('#myModal').modal('hide')
+},
+error: function () {
+  
+}
