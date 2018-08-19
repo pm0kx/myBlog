@@ -127,7 +127,7 @@ def get_actions(role_id):
 
 
 @admin.route('/roles/bind-action/',methods=['POST'])
-def bind_user_to_group():
+def bind_action_to_role():
     data = request.form.to_dict()
     role_id = data.get('role_id')
     role = Role.query.filter_by(id=role_id).first()
@@ -146,7 +146,7 @@ def bind_user_to_group():
 
 
 @admin.route('/roles/bind-resource/',methods=['POST'])
-def bind_user_to_group():
+def bind_res_to_role():
     data = request.form.to_dict()
     role_id = data.get('role_id')
     role = Role.query.filter_by(id=role_id).first()

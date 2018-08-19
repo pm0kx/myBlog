@@ -285,7 +285,7 @@ def bind_user_to_group():
 
 
 @admin.route('/users/bind-role/',methods=['POST'])
-def bind_user_to_group():
+def bind_user_to_role():
     data = request.form.to_dict()
     user_id = data.get('user_id')
     user = User.query.filter_by(id=user_id).first()
