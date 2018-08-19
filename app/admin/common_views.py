@@ -7,6 +7,7 @@ from app.common import logger
 from flask_login import login_url,current_user,login_required
 from app.common.time_util import *
 from sqlalchemy import func
+from app.common.action_log import action_log
 
 from . import admin
 from app.models import User,Attachment,Catalog,Dictionary,ActionLog
@@ -56,34 +57,160 @@ def get_dictionaries_by_catalog(catalog_id):
         'time': get_localtime()
     })
 
-
+@admin.route('/catalogs/',methods=['POST'])
 def add_catalog():
-    return ''
+    data = request.form.to_dict()
+    name = data.get('name')
+    catlog = Catalog.query.filter(Catalog.name == name).first()
+    if catlog == None:
+        cat = Catalog(name)
+        cat.code = data.get('code')
+        cat.is_show = data.get('is_show')
+        cat.comments = data.get('comments')
+        cat.created_time =datetime.now()
+        db.session.add(cat)
+        db.session.commit()
+    else:
+        return jsonify({
+            'msg': 'catalog code exist !'
+        })
+    action_log(request, '添加字典目录')
+    return jsonify({
+        'msg': 'ok !'
+    })
 
-
+@admin.route('/catalogs/',methods=['PUT'])
 def edit_catalog(catalog_id):
-    return ''
+    data = request.form.to_dict()
+    id = data.get('id')
+    res = Catalog.query.filter(Catalog.id == id).first()
+    is_update = False
+    if not res == None:
+        for attr, val in data.items():
+            if hasattr(Catalog, attr):  # 检查实例是否有这个属性
+                if not val == None:
+                    setattr(Catalog, attr, val)  # same as: a.name =
+                    is_update = True
+        if is_update:
+            res.modified_time = datetime.now()
+            db.session.add(res)
+            db.session.commit()
+    else:
+        return jsonify({
+            'msg': 'res not exist !'
+        })
+    action_log(request, '修改菜单')
+    return jsonify({
+        'msg': 'ok !'
+    })
 
 
-def del_catalog(catalog_id):
+@admin.route('/catalogs/<string:cat_id>',methods=['DELETE'])
+def del_catalog(cat_id):
+    res = Catalog.query.filter(Catalog.id == cat_id).first()
+    if not res == None:
+        # dicts=Dictionary.query.get(res.id)
+        # res.dictionaries.remove(dicts)
+        db.session.delete(res)
+        db.session.commit()
+    else:
+        return 'error'
+    return jsonify({
+        'msg': 'ok !'
+    })
 
-    return ''
 
+def get_dictionaries(name):
+    dictionaries = Dictionary.query.join(Catalog).filter(Catalog.name == name)
+    return jsonify({
+        'rows': [dictionary.to_json() for dictionary in dictionaries],
+        'total': dictionaries.count(),
+        'time': get_localtime()
+    })
 
+@admin.route('/catalogs/dictionary',methods=['POST'])
 def add_dictionary():
-    return ''
+    data = request.form.to_dict()
+    code = data.get('code')
+    dicts = Dictionary.query.filter(Dictionary.code == code).first()
+    if dicts == None:
+        d = Dictionary(data.get('name'))
+        d.code = data.get('code')
+        d.order = data.get('oder')
+        d.catalog_id =data.get('catalog_id')
+        d.created_time = datetime.now()
+        db.session.add(d)
+        db.session.commit()
+    else:
+        return jsonify({
+            'msg': 'dictionary code exist !'
+        })
+    action_log(request, '添加字典')
+    return jsonify({
+        'msg': 'ok !'
+    })
 
-
+@admin.route('/catalogs/dictionary',methods=['PUT'])
 def edit_dictionary(id):
-    return ''
+    data = request.form.to_dict()
+    id = data.get('id')
+    res = Dictionary.query.filter(Dictionary.id == id).first()
+    is_update = False
+    if not res == None:
+        for attr, val in data.items():
+            if hasattr(Dictionary, attr):  # 检查实例是否有这个属性
+                if not val == None:
+                    setattr(Dictionary, attr, val)  # same as: a.name =
+                    is_update = True
+        if is_update:
+            res.modified_time = datetime.now()
+            db.session.add(res)
+            db.session.commit()
+    else:
+        return jsonify({
+            'msg': 'dict not exist !'
+        })
+    action_log(request, '修改字典')
+    return jsonify({
+        'msg': 'ok !'
+    })
 
-
+@admin.route('/catalogs/dictionary<string:id>',methods=['DELETE'])
 def del_dictionary(id):
-    return ''
+    res = Dictionary.query.filter(Dictionary.id == id).first()
+    if not res == None:
+        db.session.delete(res)
+        db.session.commit()
+    else:
+        return 'error'
+    return jsonify({
+        'msg': 'ok !'
+    })
 
 
-def bind_dictionary_to_catalog():
-    return ''
+# @admin.route('/catalogs/bind-dict/',methods=['POST'])
+# def bind_dictionary_to_catalog():
+#     data = request.form.to_dict()
+#     type = data.get('type')
+#     cat_id = data.get('catalog_id')
+#     cat = Catalog.query.filter(Catalog.id == cat_id).first()
+#     dict_id_list = data.get('dict_id')
+#
+#     if type == 'bind' and cat:
+#         if isinstance(list, dict_id_list):
+#             dicts = Dictionary.query.filter(Dictionary.id.in_(dict_id_list)).order_by(Dictionary.created_time.desc).all()
+#             cat.append(dicts)
+#             db.session.add(cat)
+#             db.session.commit()
+#     elif type == 'unbind' and cat:
+#         if isinstance(list, dict_id_list):
+#             dicts = Dictionary.query.filter(Dictionary.id.in_(dict_id_list)).order_by(Dictionary.created_time.desc).all()
+#             cat.remove(dicts)
+#             db.session.add(cat)
+#             db.session.commit()
+#
+#     else:
+#         return 'input error'
 
 
 

@@ -7,9 +7,10 @@ from app.common import logger
 from flask_login import login_url,current_user,login_required
 from app.common.time_util import *
 from sqlalchemy import func
+from app.common.action_log import action_log
 
 from . import admin
-from app.models import User,Action,Role,users_roles,roles_actions
+from app.models import User,Action,Role,users_roles,roles_actions,Resource
 
 logger = logger.Logger(logger="admin-api").getlog()
 
@@ -54,6 +55,63 @@ def role_list():
         'time': get_localtime()
     })
 
+@admin.route('/roles',methods=['POST'])
+def add_role():
+    data = request.form.to_dict()
+    role_name = data.get('name')
+    role = Role.query.filter_by(name=role_name).first()
+    if role == None:
+        role_new = Role(role_name)
+        role_new.description = data.get('description')
+        role_new.created_time = datetime.now()
+        db.session.add(role_new)
+        db.session.commit()
+    else:
+        return jsonify({
+            'msg': 'role name exist !'
+        })
+    action_log(request, '添加角色')
+    return jsonify({
+        'msg': 'ok !'
+    })
+
+
+@admin.route('/roles',methods=['PUT'])
+def edit_role():
+    data = request.form.to_dict()
+    role_id = data.get('id')
+    role_name = data.get('name')
+    role = Role.query.filter_by(id=role_id).first()
+    if not role == None:
+        if not role_name ==None:
+            role.name = role_name
+        role.description = data.get('description')
+        role.modified_time = datetime.now()
+        db.session.add(role)
+        db.session.commit()
+    else:
+        return jsonify({
+            'msg': 'role not exist !'
+        })
+    action_log(request, '修改角色')
+    return jsonify({
+        'msg': 'ok !'
+    })
+
+@admin.route('/roles/<string:role_id>',methods=['DELETE'])
+def del_role(role_id):
+    role = Role.query.filter_by(id=role_id).first()
+    if not role == None:
+        db.session.delete(role)
+        db.session.commit()
+    else:
+        return jsonify({
+            'msg': 'role not exist !'
+        })
+    action_log(request, '删除角色')
+    response =jsonify({'msg': 'ok !' })
+    response.status_code = 200
+    return response
 
 @admin.route('/roles/<string:role_id>/actions',methods=['GET'])
 def get_actions(role_id):
@@ -68,7 +126,41 @@ def get_actions(role_id):
 
 
 
+@admin.route('/roles/bind-action/',methods=['POST'])
+def bind_user_to_group():
+    data = request.form.to_dict()
+    role_id = data.get('role_id')
+    role = Role.query.filter_by(id=role_id).first()
+    action_list= data.get('action_id')
+
+    if  role:
+        if isinstance(list,action_list):
+            role.actions.clear()
+            actions = Action.query.filter(Action.id.in_(action_list)).order_by(Action.created_time.desc).all()
+            role.actions.extend(actions)
+            db.session.add(role)
+            db.session.commit()
+
+    else:
+        return 'input error'
 
 
+@admin.route('/roles/bind-resource/',methods=['POST'])
+def bind_user_to_group():
+    data = request.form.to_dict()
+    role_id = data.get('role_id')
+    role = Role.query.filter_by(id=role_id).first()
+    res_list = data.get('resource_id')
+
+    if role:
+        if isinstance(list, res_list):
+            role.resources.clear()
+            res = Resource.query.filter(Resource.id.in_(res_list)).order_by(Resource.created_time.desc).all()
+            role.resources.extend(res)
+            db.session.add(role)
+            db.session.commit()
+
+    else:
+        return 'input error'
 
 

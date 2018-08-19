@@ -2,12 +2,12 @@
 
 from flask import render_template,request,current_app
 from datetime import datetime
-from flask import redirect,url_for,jsonify,json
+from flask import redirect,url_for,jsonify,json,request
 from app.common import logger
 from flask_login import login_url,current_user,login_required
 from app.common.time_util import get_localtime
 from sqlalchemy import func
-
+from app.common.action_log import  action_log
 from . import admin
 from app.models import User,Action,ActionLog,roles_actions,Role,Resource,roles_resources
 from app.common.db import db
@@ -59,12 +59,10 @@ def add_action():
         db.session.commit()
     else:
         return jsonify({
-            'code':500,
             'msg':'action code exist !'
         })
-    
+    action_log(request,'添加操作权限')
     return jsonify({
-            'code':200,
             'msg':'sbumit success !'
         })
 
@@ -88,7 +86,6 @@ def edit_action(action_id):
     else:
         return 'error'
     return jsonify({
-        'code': 200,
         'msg': 'ok !'
     })
 
@@ -103,9 +100,16 @@ def del_action(action_id):
     else:
         return 'error'
     return jsonify({
-        'code': 200,
         'msg': 'ok !'
     })
+
+#{
+ # 'id':[
+ #     'kjikjdsk',
+ #     'kikjdiejdie83728',
+ #     'jwyudu3ey738djiw'
+ # ]
+# }
 
 @admin.route('/actions/batch/<string:ids>',methods=['DELETE'])
 def del_actions(ids):
@@ -124,11 +128,101 @@ def del_actions(ids):
             'msg': error_str+" delete fail"
         })
 
+def dellete_action(ids):
+    for id in ids:
+        action = Action.query.filter(Action.id == id).first()
+        if not action == None:
+            db.session.delete(action)
 
-def action_log():
-    pass
 
 
-
+@admin.route('/menus',methods=['GET'])
 def resource_list():
-    pass
+    page_size = request.args.get('rows', 5, type=int)
+    page = request.args.get('page', 1, type=int)
+
+    pagination = Resource.query.order_by(Resource.created_time.asc()).paginate(
+        page, per_page=page_size,
+        error_out=False)
+    menus = pagination.items
+    prev = None
+
+    if pagination.has_prev:
+        prev = url_for('admin.resource_list', page=page - 1)
+    next = None
+    if pagination.has_next:
+        next = url_for('admin.resource_list', page=page + 1)
+    return jsonify({
+        'rows': [m.to_json() for m in menus],
+        'prev': prev,
+        'next': next,
+        'total': pagination.total,
+        'time': get_localtime()
+    })
+
+
+
+@admin.route('/menus',methods=['POST'])
+def add_resource():
+    data=request.form.to_dict()
+    name=data.get('name')
+    menu = Resource.query.filter(Resource.name==name).first()
+    if menu ==None:
+        res =Resource(name)
+        res.pid=data.get('pid')
+        res.icon=data.get('icon')
+        res.url=data.get('url')
+        res.order = data.get('order')
+        res.bg_color= data.get('bg_color')
+        res.comments=data.get('comments')
+        res.created_time =datetime.now()
+        db.session.add(res)
+        db.session.commit()
+    else:
+        return jsonify({
+            'msg':'res code exist !'
+        })
+    action_log(request,'添加菜单')
+    return jsonify({
+            'msg':'ok !'
+        })
+
+
+@admin.route('/menus',methods=['PUT'])
+def edit_resource():
+    data = request.form.to_dict()
+    id = data.get('id')
+    res = Resource.query.filter(Resource.id == id).first()
+    is_update = False
+    if not res == None:
+        for attr, val in data.items():
+            if hasattr(Action, attr):  # 检查实例是否有这个属性
+                if not val ==None:
+                    setattr(Action, attr, val)  # same as: a.name =
+                    is_update = True
+        if is_update:
+            res.modified_time =datetime.now()
+            db.session.add(res)
+            db.session.commit()
+    else:
+        return jsonify({
+            'msg': 'res not exist !'
+        })
+    action_log(request, '修改菜单')
+    return jsonify({
+        'msg': 'ok !'
+    })
+
+
+@admin.route('/menus/<string:resource_id>',methods=['DELETE'])
+def del_resource(resource_id):
+    res = Resource.query.filter(Resource.id == resource_id).first()
+    if not res == None:
+        db.session.delete(res)
+        db.session.commit()
+    else:
+        return 'error'
+    return jsonify({
+        'msg': 'ok !'
+    })
+
