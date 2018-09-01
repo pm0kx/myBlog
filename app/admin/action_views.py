@@ -22,25 +22,24 @@ def actions_page():
 
 @admin.route('/actions',methods=['GET'])
 def action_list():
-    page_size=request.args.get('rows', 5, type=int)
+    page_size=request.args.get('limit', 5, type=int)
     page=request.args.get('page', 1, type=int)
 
     pagination = Action.query.order_by(Action.created_time.asc()).paginate(
         page, per_page=page_size,
         error_out=False)
     actions = pagination.items
-    prev = None
-
-    if pagination.has_prev:
-        prev = url_for('admin.action_list', page=page - 1)
-    next = None
-    if pagination.has_next:
-        next = url_for('admin.action_list', page=page + 1)
+    # prev = None
+    # if pagination.has_prev:
+    #     prev = url_for('admin.action_list', page=page - 1)
+    # next = None
+    # if pagination.has_next:
+    #     next = url_for('admin.action_list', page=page + 1)
     return jsonify({
-        'rows': [action.to_json() for action in actions],
-        'prev': prev,
-        'next': next,
-        'total': pagination.total,
+        'data': [action.to_json() for action in actions],
+        'msg': '',
+        'code': 0,
+        'count': pagination.total,
         'time': get_localtime()
     })
 
@@ -138,25 +137,24 @@ def dellete_action(ids):
 
 @admin.route('/menus',methods=['GET'])
 def resource_list():
-    page_size = request.args.get('rows', 5, type=int)
+    page_size = request.args.get('limit', 5, type=int)
     page = request.args.get('page', 1, type=int)
 
     pagination = Resource.query.order_by(Resource.created_time.asc()).paginate(
         page, per_page=page_size,
         error_out=False)
     menus = pagination.items
-    prev = None
-
-    if pagination.has_prev:
-        prev = url_for('admin.resource_list', page=page - 1)
-    next = None
-    if pagination.has_next:
-        next = url_for('admin.resource_list', page=page + 1)
+    # prev = None
+    # if pagination.has_prev:
+    #     prev = url_for('admin.resource_list', page=page - 1)
+    # next = None
+    # if pagination.has_next:
+    #     next = url_for('admin.resource_list', page=page + 1)
     return jsonify({
-        'rows': [m.to_json() for m in menus],
-        'prev': prev,
-        'next': next,
-        'total': pagination.total,
+        'data': [m.to_json() for m in menus],
+        'msg': '',
+        'code': 0,
+        'count': pagination.total,
         'time': get_localtime()
     })
 

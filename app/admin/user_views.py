@@ -22,31 +22,31 @@ def users_page():
 #@login_required
 def user_list():
     #page = request.args.get('page', 1, type=int)
-    page_size=request.args.get('rows', 5, type=int)
+    page_size=request.args.get('limit', 5, type=int)
     page=request.args.get('page', 1, type=int)
-    group_name=request.args.get('groupName')
-    if group_name ==None:
-        pagination = User.query.order_by(User.created_time.asc()).paginate(
+    type=request.args.get('type')
+    if type ==None:
+        pagination = User.query.filter(User.type == '1').order_by(User.created_time.asc()).paginate(
             page, per_page=page_size,
             error_out=False)
     else:
-        pagination = User.query.join(user_group).join(Group).filter(Group.group_name == group_name)\
-           .order_by(User.created_time.asc()).paginate(
+        #pagination = User.query.join(user_group).join(Group).filter(Group.group_name == group_name) \
+        pagination = User.query.filter(User.type == type).order_by(User.created_time.asc()).paginate(
             page, per_page=page_size,
             error_out=False)
     users = pagination.items
 
-    prev = None
-    if pagination.has_prev:
-        prev = url_for('admin.user_list', page=page - 1)
-    next = None
-    if pagination.has_next:
-        next = url_for('admin.user_list', page=page + 1)
+    # prev = None
+    # if pagination.has_prev:
+    #     prev = url_for('admin.user_list', page=page - 1)
+    # next = None
+    # if pagination.has_next:
+    #     next = url_for('admin.user_list', page=page + 1)
     return jsonify({
-        'rows': [user.to_json() for user in users],
-        'prev': prev,
-        'next': next,
-        'total': pagination.total,
+        'data': [user.to_json() for user in users],
+        'msg': '',
+        'code': 0,
+        'count': pagination.total,
         'time': get_localtime()
     })
 
@@ -150,24 +150,24 @@ def groups_page():
 
 @admin.route('/groups',methods=['GET'])
 def group_list():
-    page_size = request.args.get('rows', 5, type=int)
+    page_size = request.args.get('limit', 5, type=int)
     page = request.args.get('page', 1, type=int)
     pagination = Group.query.order_by(Group.created_time.asc()).paginate(
         page, per_page=page_size,
         error_out=False)
     groups = pagination.items
 
-    prev = None
-    if pagination.has_prev:
-        prev = url_for('admin.group_list', page=page - 1)
-    next = None
-    if pagination.has_next:
-        next = url_for('admin.group_list', page=page + 1)
+    # prev = None
+    # if pagination.has_prev:
+    #     prev = url_for('admin.group_list', page=page - 1)
+    # next = None
+    # if pagination.has_next:
+    #     next = url_for('admin.group_list', page=page + 1)
     return jsonify({
-        'rows': [group.to_json() for group in groups],
-        'prev': prev,
-        'next': next,
-        'total': pagination.total,
+        'data': [group.to_json() for group in groups],
+        'msg': '',
+        'code': 0,
+        'count': pagination.total,
         'time': get_localtime()
     })
 
@@ -337,3 +337,128 @@ def get_tree():
 # @admin.route('/groups/bind/<string:user_id>',methods=['DELETE'])
 # def unbind_from_group():
 #     return ''
+
+@admin.route('/json',methods=['GET'])
+def get_json():
+     
+    return jsonify({
+    "code": 0,
+    "msg": "",
+    "count": "12",
+    "data": [
+    {
+    "id": "001",
+    "label": "美食",
+    "title": "舌尖上的中国第一季",
+    "author": "作者-1",
+    "content": "通过中华美食的多个侧面，来展现食物给中国人生活带来的仪式、",
+    "uploadtime": 20121204,
+    "status": True
+  },
+  {
+    "id": "002",
+    "label": "美食",
+    "title": "舌尖上的中国第二季",
+    "author": "作者-2",
+    "content": "以食物为窗口，读懂中国——通过美食，使人们可以有滋有味地认知这个古老的东方国度。",
+    "uploadtime": 20141204,
+    "status": False
+  },
+  {
+    "id": "003",
+    "label": "美食",
+    "title": "舌尖上的中国第二季",
+    "author": "作者-2",
+    "content": "以食物为窗口，读懂中国——通过美食，使人们可以有滋有味地认知这个古老的东方国度。",
+    "uploadtime": 20141204,
+    "status": True
+  },
+  {
+    "id": "004",
+    "label": "美食",
+    "title": "舌尖上的中国第二季",
+    "author": "作者-2",
+    "content": "以食物为窗口，读懂中国——通过美食，使人们可以有滋有味地认知这个古老的东方国度。",
+    "uploadtime": 20141204,
+    "status": False
+  },
+  {
+    "id": "005",
+    "label": "美食",
+    "title": "舌尖上的中国第二季",
+    "author": "作者-2",
+    "content": "以食物为窗口，读懂中国——通过美食，使人们可以有滋有味地认知这个古老的东方国度。",
+    "uploadtime": 20141204,
+    "status": True
+  },
+  {
+    "id": "006",
+    "label": "美食",
+    "title": "舌尖上的中国第二季",
+    "author": "作者-2",
+    "content": "以食物为窗口，读懂中国——通过美食，使人们可以有滋有味地认知这个古老的东方国度。",
+    "uploadtime": 20141204,
+    "status": True
+  },
+  {
+    "id": "007",
+    "label": "美食",
+    "title": "舌尖上的中国第二季",
+    "author": "作者-2",
+    "content": "以食物为窗口，读懂中国——通过美食，使人们可以有滋有味地认知这个古老的东方国度。",
+    "uploadtime": 20141204,
+    "status": True
+  },
+  {
+    "id": "00,8",
+    "label": "美食",
+    "title": "舌尖上的中国第二季",
+    "author": "作者-2",
+    "content": "以食物为窗口，读懂中国——通过美食，使人们可以有滋有味地认知这个古老的东方国度。",
+    "uploadtime": 20141204,
+    "status": False
+  },
+  {
+    "id": "009",
+    "label": "美食",
+    "title": "舌尖上的中国第二季",
+    "author": "作者-2",
+    "content": "以食物为窗口，读懂中国——通过美食，使人们可以有滋有味地认知这个古老的东方国度。",
+    "uploadtime": 20141204,
+    "status": False
+  },
+  {
+    "id": "010",
+    "label": "美食",
+    "title": "舌尖上的中国第二季",
+    "author": "作者-2",
+    "content": "以食物为窗口，读懂中国——通过美食，使人们可以有滋有味地认知这个古老的东方国度。",
+    "uploadtime": 20141204,
+    "status": False
+  },
+  {
+    "id": "011",
+    "label": "体育",
+    "title": "舌尖上的中国第二季",
+    "author": "作者-2",
+    "content": "以食物为窗口，读懂中国——通过美食，使人们可以有滋有味地认知这个古老的东方国度。",
+    "uploadtime": 20141204,
+    "status": False
+  },
+  {
+    "id": "012",
+    "label": "美食",
+    "title": "舌尖上的中国第二季",
+    "author": "作者-12",
+    "content": "以食物为窗口，读懂中国——通过美食，使人们可以有滋有味地认知这个古老的东方国度。",
+    "uploadtime": 20141204,
+    "status": True
+  }
+  ]
+})
+    #resp = jsonify({})
+    # resp.status_code = 200
+    # resp.headers['Access-Control-Allow-Origin'] = '*'
+    # return resp
+
+

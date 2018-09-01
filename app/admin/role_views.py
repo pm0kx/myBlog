@@ -33,25 +33,24 @@ def roles_page():
 
 @admin.route('/roles',methods=['GET'])
 def role_list():
-    page_size=request.args.get('rows', 5, type=int)
+    page_size=request.args.get('limit', 5, type=int)
     page=request.args.get('page', 1, type=int)
 
     pagination = Role.query.order_by(Role.created_time.asc()).paginate(
         page, per_page=page_size,
         error_out=False)
     roles = pagination.items
-    prev = None
-
-    if pagination.has_prev:
-        prev = url_for('admin.role_list', page=page - 1)
-    next = None
-    if pagination.has_next:
-        next = url_for('admin.role_list', page=page + 1)
+    # prev = None
+    # if pagination.has_prev:
+    #     prev = url_for('admin.role_list', page=page - 1)
+    # next = None
+    # if pagination.has_next:
+    #     next = url_for('admin.role_list', page=page + 1)
     return jsonify({
-        'rows': [role.to_json() for role in roles],
-        'prev': prev,
-        'next': next,
-        'total': pagination.total,
+        'data': [role.to_json() for role in roles],
+        'msg': '',
+        'code': 0,
+        'count': pagination.total,
         'time': get_localtime()
     })
 

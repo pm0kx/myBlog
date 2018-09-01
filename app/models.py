@@ -61,6 +61,9 @@ class BaseModel(object):
         db.session.delete(self)
         db.session.commit()
 
+# class Admins(BaseModel,db.Model):
+#     pass
+
 
 class User(BaseModel,db.Model):
     """Represents Proected users."""
@@ -71,6 +74,7 @@ class User(BaseModel,db.Model):
     password_hash = db.Column(db.String(64), comment='加密密文')
     nick_name = db.Column(db.String(64))
     full_name = db.Column(db.String(64))
+    type = db.Column(db.String(10), comment='0:administrators,1:member,2:vip')
     gender = db.Column(db.String(10), comment='1:man,0:women')
     birthday = db.Column(db.DateTime)
     address = db.Column(db.Text())
@@ -84,7 +88,11 @@ class User(BaseModel,db.Model):
     roles = db.relationship(
         'Role',
         secondary=users_roles,
-        backref=db.backref('users', lazy='dynamic'))
+        backref=db.backref('users', lazy='dynamic')
+        #lazy = 'dynamic',
+        # cascade = 'all, delete-orphan',
+        # passive_deletes = True
+       )
 
     mails = db.relationship(
         'Mail',
@@ -154,11 +162,14 @@ class User(BaseModel,db.Model):
         json_user = {
             'id': self.id,
             'username': self.username,
+            'avatar': 'http://127.0.0.1:8089/static/images/user/p1.jpg',
             'nick_name': self.nick_name,
             'full_name': self.full_name,
             'birthday': self.birthday,
             'address': self.address,
+            'status': self.status,
             'gender': self.gender,
+            'create_time': self.created_time,
             'emails': [mail.email for mail in self.mails]
            # 'email':','.join(self.mails.email)
         }
@@ -221,7 +232,8 @@ class Role(BaseModel,db.Model):
             'name': self.name,
             'description': self.description,
             'status': self.status,
-            'created_time': self.created_time
+            'create_time': self.created_time,
+            'update_time': self.modified_time
         }
         return json_post
 
@@ -349,7 +361,16 @@ class Dictionary(BaseModel,db.Model):
         self.name=name
 
     def __repr__(self):
-        return 'Article'
+        return 'dict'
+
+    def to_json(self):
+        json_post = {
+            'id': self.id,
+            'name': self.name,
+            'oder': self.oder,
+            'code': self.code
+        }
+        return json_post
 
 
 
@@ -395,7 +416,7 @@ class Action(BaseModel,db.Model):
             'code': self.code,
             'comments':self.comments,
             'status': self.status,
-            'created_time': self.created_time
+            'create_time': self.created_time
         }
         return json_post
 
@@ -406,6 +427,7 @@ class Resource(BaseModel,db.Model):
     __tablename__ = 'resources'
     id = db.Column(db.String(45), primary_key=True)
     name = db.Column(db.String(128))
+    pid = db.Column(db.String(45))
     icon = db.Column(db.String(50))
     url = db.Column(db.String(250))
     order = db.Column(db.SmallInteger, default=0)
@@ -421,6 +443,21 @@ class Resource(BaseModel,db.Model):
         self.id = str(uuid4())
         self.source_name = source_name
 
+    def to_json(self):
+        json_post = {
+            'id': self.id,
+            'name': self.name,
+            'pid': self.pid,
+            'icon': self.icon,
+            'url':self.url,
+            'order':self.order,
+            'bg_color':self.bg_color,
+            'comments':self.comments,
+            'status': self.status,
+            'create_time': self.created_time
+        }
+        return json_post
+
 class Group(BaseModel,db.Model):
     """用户组"""
 
@@ -428,7 +465,7 @@ class Group(BaseModel,db.Model):
     id = db.Column(db.String(45), primary_key=True)
     group_name = db.Column(db.String(64))
     parent_id = db.Column(db.String(45))
-    level =db.Column(db.Integer)        #最大支持3级
+    level_no =db.Column(db.Integer)        #最大支持3级
     comments = db.Column(db.String(255))
 
     users = db.relationship(
@@ -442,12 +479,12 @@ class Group(BaseModel,db.Model):
 
     @property
     def level(self):
-       return self.level
+        return self.level_no
 
     @level.setter
-    def level(self, level):
-        if level.isdigit() and level >0 and  level <=3:
-            self.level =level
+    def level(self, num):
+        if num.isdigit() and num >0 and  num <=3:
+            self.level_no =num
         else:
             raise AttributeError('level错误，level范围为1-3')
 
@@ -455,12 +492,12 @@ class Group(BaseModel,db.Model):
     def to_json(self):
         json_post = {
             'id': self.id,
-            'group_name': self.name,
+            'group_name': self.group_name,
             'parent_id': self.parent_id,
             'level': self.level,
             'comments':self.comments,
             'status': self.status,
-            'created_time': self.created_time
+            'create_time': self.created_time
         }
         return json_post
 
