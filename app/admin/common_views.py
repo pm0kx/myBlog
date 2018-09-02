@@ -20,40 +20,42 @@ logger = logger.Logger(logger="admin-common").getlog()
 
 @admin.route('/catalogs',methods=['GET'])
 def catalog_list():
-    page_size=request.args.get('rows', 5, type=int)
+    page_size=request.args.get('limit', 5, type=int)
     page=request.args.get('page', 1, type=int)
     pagination = Catalog.query.order_by(Catalog.created_time.asc()).paginate(
         page, per_page=page_size,
         error_out=False)
     catalogs = pagination.items
 
-    prev = None
-    if pagination.has_prev:
-        prev = url_for('admin.catalog_list', page=page - 1)
-    next = None
-    if pagination.has_next:
-        next = url_for('admin.catalog_list', page=page + 1)
+    #prev = None
+    #if pagination.has_prev:
+    #    prev = url_for('admin.catalog_list', page=page - 1)
+    #next = None
+    #if pagination.has_next:
+    #    next = url_for('admin.catalog_list', page=page + 1)
     return jsonify({
-        'rows': [catalog.to_json() for catalog in catalogs],
-        'prev': prev,
-        'next': next,
-        'total': pagination.total,
+        'data': [catalog.to_json() for catalog in catalogs],
+        'msg': '',
+        'code': 0,
+        'count': pagination.total,
         'time': get_localtime()
     })
 
 @admin.route('/catalogs/<string:catalog_id>',methods=['GET'])
 def get_catalog(catalog_id):
-    catalog = User.query.get_or_404(catalog_id)
+    catalog = Catalog.query.get_or_404(catalog_id)
     return jsonify(catalog.to_json())
 
 
 
-@admin.route('/catalogs/<string:catalog_id>/dictionaries',methods=['GET'])
+@admin.route('/catalogs/<int:catalog_id>/dictionaries',methods=['GET'])
 def get_dictionaries_by_catalog(catalog_id):
-    dictionaries = Dictionary.query.filter(Dictionary.catalog_id == catalog_id).first()
+    dictionaries = Dictionary.query.filter(Dictionary.catalog_id == catalog_id)
     return jsonify({
-        'rows': [dictionary.to_json() for dictionary in dictionaries],
-        'total': dictionaries.count(),
+        'data': [d.to_json() for d in dictionaries],
+        'count': dictionaries.count(),
+        'code':0,
+        'msg':'',
         'time': get_localtime()
     })
 
@@ -120,11 +122,14 @@ def del_catalog(cat_id):
     })
 
 
+#@admin.route('/dicts',methods=['GET'])
 def get_dictionaries(name):
     dictionaries = Dictionary.query.join(Catalog).filter(Catalog.name == name)
     return jsonify({
-        'rows': [dictionary.to_json() for dictionary in dictionaries],
-        'total': dictionaries.count(),
+        'data': [dictionary.to_json() for dictionary in dictionaries],
+        'msg': '',
+        'code': 0,
+        'count': dictionaries.count(),
         'time': get_localtime()
     })
 
@@ -186,6 +191,26 @@ def del_dictionary(id):
     return jsonify({
         'msg': 'ok !'
     })
+
+
+@admin.route('/logs',methods=['GET'])
+def actionlog_list():
+    page_size=request.args.get('limit', 5, type=int)
+    page=request.args.get('page', 1, type=int)
+    pagination = ActionLog.query.order_by(ActionLog.action_time.asc()).paginate(
+        page, per_page=page_size,
+        error_out=False)
+    logs = pagination.items
+
+ 
+    return jsonify({
+        'data': [log.to_json() for log in logs],
+        'msg': '',
+        'code': 0,
+        'count': pagination.total,
+        'time': get_localtime()
+    })
+
 
 
 # @admin.route('/catalogs/bind-dict/',methods=['POST'])

@@ -261,10 +261,21 @@ class Post(BaseModel,db.Model):
         'Tag',
         secondary=posts_tags,
         backref=db.backref('posts', lazy='dynamic'))
+    
 
     def __init__(self, title):
         self.id = str(uuid4())
         self.title = title
+
+    def get_tag(self):
+        tags =Tag.query.join(posts_tags).join(Post).filter(Post.id==self.id)
+        str =[]
+        for t in tags:
+            str.append(t.name)
+        return ','.join(str)
+    
+    def __repr__(self):
+        return "<Model Post `{}`>".format(self.title)
 
     def to_json(self):
         json_post = {
@@ -272,14 +283,13 @@ class Post(BaseModel,db.Model):
             'title': self.title,
             'text': self.text,
             'publish_date': self.publish_date,
-            'user_id': self.user_id,
+            'author': self.users.username,
+            'tag':self.get_tag(),
             'status': self.status,
             'created_time': self.created_time
         }
         return json_post
 
-    def __repr__(self):
-        return "<Model Post `{}`>".format(self.title)
 
 
 class Comment(BaseModel,db.Model):
@@ -295,6 +305,20 @@ class Comment(BaseModel,db.Model):
     def __init__(self, name):
         self.name = name
         self.id=str(uuid4())
+    
+    def to_json(self):
+        json_comment = {
+            'id': self.id,
+            'name': self.name,
+            'content': self.text,
+            'reviewers':self.creater,
+            'status': self.status,
+            'post_title': self.posts.title,
+            'date': self.date,
+            'create_time': self.created_time
+        }
+        return json_comment
+
 
     def __repr__(self):
         return '<Model Comment `{}`>'.format(self.name)
@@ -317,7 +341,8 @@ class Tag(BaseModel,db.Model):
             'id': self.id,
             'name': self.name,
             'status': self.status,
-            'created_time': self.created_time
+            'update_time': self.modified_time,
+            'create_time': self.created_time
         }
         return json_tag
 
@@ -344,6 +369,19 @@ class Catalog(BaseModel,db.Model):
 
     def __repr__(self):
         return 'Catalog'
+    
+    def to_json(self):
+        json_post = {
+            'id': self.id,
+            'name': self.name,
+            'code': self.code,
+            'is_show': self.is_show,
+            'comments':self.comments,
+            'status': self.status,
+            'create_time': self.created_time,
+            'update_time': self.modified_time
+        }
+        return json_post
 
 
 
@@ -352,7 +390,7 @@ class Dictionary(BaseModel,db.Model):
 
     __tablename__='dictionary'
     id=db.Column(db.String(45),primary_key=True)
-    name=db.Column(db.String(100),nullable=False)
+    name=db.Column(db.String(100))
     code = db.Column(db.String(45),unique=True)
     order=db.Column(db.Integer)
     catalog_id=db.Column(db.Integer,db.ForeignKey('catalog.id'))
@@ -367,8 +405,11 @@ class Dictionary(BaseModel,db.Model):
         json_post = {
             'id': self.id,
             'name': self.name,
-            'oder': self.oder,
-            'code': self.code
+            'order': self.order,
+            'code': self.code,
+            'status': self.status,
+            'create_time': self.created_time,
+            'update_time': self.modified_time
         }
         return json_post
 
@@ -513,6 +554,15 @@ class ActionLog(db.Model):
     def __init__(self, action_name):
         self.id = str(uuid4())
         self.action_name = action_name
+
+    def to_json(self):
+        json_post = {
+            'id': self.id,
+            'action_name': self.action_name,
+            'client_ip': self.client_ip,
+            'action_time': self.action_time
+        }
+        return json_post
 
 class Attachment(db.Model):
     """附件资源表"""

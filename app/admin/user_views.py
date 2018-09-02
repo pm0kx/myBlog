@@ -50,8 +50,8 @@ def user_list():
         'time': get_localtime()
     })
 
-@admin.route('/users/<string:user_id>/detial')
-def user_detial(user_id):
+@admin.route('/users/<string:user_id>',methods=['GET'])
+def get_user(user_id):
     user = User.query.get_or_404(user_id)
     return jsonify(user.to_json())
 
