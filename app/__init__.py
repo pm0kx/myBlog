@@ -4,6 +4,7 @@ from flask import Flask
 from flask_login import current_user
 # from flask_sqlalchemy import SQLAlchemy
 from flask import redirect,url_for
+from flask_cors import CORS
 
 from app.common.db import db
 from app.common.extensions import bcrypt
@@ -18,6 +19,7 @@ from app.common.extensions import cache
 # from app.common.extensions import main_js
 # from app.common.extensions import main_css
 from app.common.extensions import restful_api
+#from app.common import MyResponse
 
 from flask_principal import identity_loaded, UserNeed, RoleNeed
 from config import config
@@ -36,6 +38,11 @@ def create_app(config_name):
 
     db.init_app(app)
     #db.app = app
+
+    #Access-Control-Allow-Origin
+    CORS(app, supports_credentials=True)
+    #  Customizing the Flask Response Class
+    #app.response_class = MyResponse
 
     # Init the Flask-Bcrypt via app object
     bcrypt.init_app(app)

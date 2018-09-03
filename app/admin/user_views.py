@@ -61,7 +61,7 @@ def get_user(user_id):
 def add_user():
     data = request.form.to_dict()
     user = User.query.filter_by(username=data.get('username')).first()
-    if not user ==None:
+    if user ==None:
         new_user = User()
         new_user.username = data.get('username')
         new_user.password = 'abcd1234'  # default password

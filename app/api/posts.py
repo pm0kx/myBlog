@@ -8,10 +8,12 @@ from app.common import logger
 from app.common.action_log import action_log
 from app.common.extensions import cache
 from app.common.permission import permission,permission_required
+import json
 
 from app.api import api
 from app.models import User,Post,Tag
 from app.post import post,make_cache_key
+from app.common import get_post_data as get_data
 from app.common.db import db
 #from .errors import forbidden
 
@@ -91,7 +93,74 @@ def get_tags():
         'time': datetime.now()
     })
 
+@api.route('/tags/add',methods=['POST'])
+def add_tags():
+    
+    data,msg=get_data.get_post_data(request)
+    tag_name= data['name']
+    if tag_name == None:
+        return jsonify({
+            'msg':'name is required'
+        })
+    tag = Tag.query.filter_by(name=tag_name).first()
+    if tag ==None:
+        new_tag = Tag(tag_name)
+        new_tag.status = data.get('status')
+        new_tag.created_time = datetime.now()
+        new_tag.modified_time = datetime.now()
+        new_tag.creater = 'lucy'
 
+
+        db.session.add(new_tag)
+        db.session.commit()
+
+    else:
+        return jsonify({
+            'msg':'tag exist !'
+        })
+    action_log(request,'添加标签')
+    return jsonify({
+        'msg':msg,
+        'code': 0,
+        'time': datetime.now()
+        })
+
+
+
+# def get_post_data(request):
+
+#     strs=''
+#     content_type_table =['application/json','application/x-www-form-urlencoded']
+#     content_type=request.headers.get("Content-Type")
+
+#     if content_type not in content_type_table:
+#         strs='An alternative way of submitting data'
+
+#     if content_type ==content_type_table[0]:
+#         return request.json,strs
+#     elif content_type ==content_type_table[1]:
+#         return request.form.to_dict(),strs   
+#     else:
+#         return request.form.to_dict(),strs
+    
+
+
+@api.route('/post/test',methods=['POST'])
+def test_posts():
+    tb,msg=get_post_data(request)
+    return jsonify({
+            'msg':msg,
+            'data':tb
+        })
+    
+
+
+
+    # tag_name= data.get('name')
+    # if tag_name == 'xyz':
+    #     return jsonify({
+    #         'msg':'name is null'
+    #     })
 
 # @post.route('/add',methods=['GET', 'POST'])
 # @login_required
