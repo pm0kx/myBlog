@@ -77,6 +77,8 @@ def new_post_comment(id):
     db.session.commit()
     return jsonify(comment.to_json())
 
+def del_comment(id):
+    pass
 
 # @post.route('/add_comment/<string:post_id>', methods=('GET', 'POST'))
 # @cache.cached(timeout=60, key_prefix=make_cache_key)

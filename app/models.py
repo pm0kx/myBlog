@@ -47,19 +47,30 @@ user_group = db.Table('user_group',  # 用户机构关联表
 class BaseModel(object):
     """Base class"""
     # 1:enabled     0:disenabled
-    status = db.Column(db.Integer,default=1,comment='状态，1->启用，0->禁用')
+    status_ = db.Column(db.Integer,default=1,comment='状态，1->启用，0->禁用')
     created_time = db.Column(db.DATETIME, default=datetime.datetime.now(),comment='创建时间')
     creater = db.Column(db.String(45),default='null')
     modified_time = db.Column(db.DATETIME, default=datetime.datetime.now(), onupdate=datetime.datetime.now(),comment='修改时间')
     modifier = db.Column(db.String(45),default='null')
 
-    def add_update(self):
+    def add_or_update(self):
         db.session.add(self)
         db.session.commit()
 
     def delete(self):
         db.session.delete(self)
         db.session.commit()
+
+    @property
+    def status(self):
+        return self.status_
+
+    @status.setter
+    def status(self, s):
+        if s in [0,1]:
+            self.status_=s
+        else:
+            raise AttributeError('status in [0,1]')
 
 # class Admins(BaseModel,db.Model):
 #     pass

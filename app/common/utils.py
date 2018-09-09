@@ -1,5 +1,5 @@
 # -*- coding: UTF-8 -*-
-
+import re
 def get_post_data(request):
 
     strs=''
@@ -15,3 +15,11 @@ def get_post_data(request):
         return request.form.to_dict(),strs   
     else:
         return request.form.to_dict(),strs
+
+def get_args_data(request):
+
+    return request.args
+
+def check_str(strs):
+    pattern_str='\w|-'
+    return re.match(pattern_str, strs, flags=0)
