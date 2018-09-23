@@ -46,7 +46,7 @@ user_group = db.Table('user_group',  # 用户机构关联表
 
 class BaseModel(object):
     """Base class"""
-    # 1:enabled     0:disenabled
+    # 1:enabled     0:disabled
     status_ = db.Column(db.Integer,default=1,comment='状态，1->启用，0->禁用')
     created_time = db.Column(db.DATETIME, default=datetime.datetime.now(),comment='创建时间')
     creater = db.Column(db.String(45),default='null')
@@ -67,10 +67,10 @@ class BaseModel(object):
 
     @status.setter
     def status(self, s):
-        if s in [0,1]:
-            self.status_=s
+        if s =='on':
+            self.status_=1
         else:
-            raise AttributeError('status in [0,1]')
+            self.status_ = 0
 
 # class Admins(BaseModel,db.Model):
 #     pass
@@ -425,7 +425,6 @@ class Dictionary(BaseModel,db.Model):
         return json_post
 
 
-
 class Mail(BaseModel,db.Model):
     """Represents Proected reminders."""
 
@@ -471,6 +470,8 @@ class Action(BaseModel,db.Model):
             'create_time': self.created_time
         }
         return json_post
+    def __repr__(self):
+        return '<Model Action `{}`>'.format(self.name)
 
 
 class Resource(BaseModel,db.Model):
@@ -509,6 +510,9 @@ class Resource(BaseModel,db.Model):
             'create_time': self.created_time
         }
         return json_post
+
+    def __repr__(self):
+        return '<Model Resoure `{}`>'.format(self.name)
 
 class Group(BaseModel,db.Model):
     """用户组"""
@@ -553,6 +557,9 @@ class Group(BaseModel,db.Model):
         }
         return json_post
 
+    def __repr__(self):
+        return '<Model Group `{}`>'.format(self.group_name)
+
 class ActionLog(db.Model):
     """操作日志"""
 
@@ -574,6 +581,9 @@ class ActionLog(db.Model):
             'action_time': self.action_time
         }
         return json_post
+
+    def __repr__(self):
+        return '<Model ActionLog `{}`>'.format(self.action_name)
 
 class Attachment(db.Model):
     """附件资源表"""

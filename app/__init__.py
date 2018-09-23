@@ -41,8 +41,6 @@ def create_app(config_name):
 
     #Access-Control-Allow-Origin
     CORS(app, supports_credentials=True)
-    #  Customizing the Flask Response Class
-    #app.response_class = MyResponse
 
     # Init the Flask-Bcrypt via app object
     bcrypt.init_app(app)
@@ -53,43 +51,17 @@ def create_app(config_name):
     # Init the Flask-Login via app object
     login_manager.init_app(app)
 
-    # Init the Flask-Prinicpal via app object
-    # principals.init_app(app)
-
-    # Init the Flask-Prinicpal via app object
-    # Bootstrap.init_app(app)
-
-    # Init the Flask-Celery-Helper via app object
-    # Register the celery object into app object
-    # flask_celery.init_app(app)
-
     # Init the Flask-mail via app object
     mail.init_app(app)
 
-    # Init the Flask-Restful via app object
-    # Define the route of restful_api
-    # from app.api.posts import PostApi
+    # from app.api.apis import CommentApi
     # restful_api.add_resource(
-    #     PostApi,
-    #     '/api/posts',
-    #     '/api/posts/<string:post_id>')
-
-    # restful_api.add_resource(
-    #     AuthApi,
-    #     '/api/auth',
-    #     endpoint='restful_api_auth')
-    restful_api.init_app(app)
+    #     CommentApi,
+    #     '/v1/comments',
+    #     '/v1/comments/<string:id>')
+    # restful_api.init_app(app)
     # Init the Flask-Cache via app object
     cache.init_app(app)
-
-    # Init the Flask-Admin via app object
-    # flask_admin.init_app(app)
-
-    # Init the Flask-Assets via app object
-    # assets_env.init_app(app)
-    # assets_env.register('main_js', main_js)
-    # assets_env.register('main_css', main_css)
-
 
     # Will be callback on_reminder_save when insert recond into table `reminder`.
     #event.listen(Reminder, 'after_insert', on_reminder_save)

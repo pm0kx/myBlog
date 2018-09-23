@@ -40,7 +40,7 @@ def get_posts():
             'time': datetime.now()
         })
     elif request.method =='POST':
-        pass
+        return add_post(request)
     else:
         pass
 
@@ -129,7 +129,15 @@ def del_post(post_id,request):
     :param request:
     :return:json
     """
-    pass
+    post = Post.query.get_or_404(post_id)
+    
+    db.session.delete(post)
+    db.session.commit()
+
+    return jsonify({
+        'code': 0,
+        'msg': 'ok'
+    })
 
 
 #@api.route('/tags/<string:id>',methods=['DELETE','PATCH'])
@@ -171,7 +179,7 @@ def add_tags(request):
     :return:
     """
     data,msg=utils.get_post_data(request)
-    tag_name= data['name']
+    tag_name= data['tag']
     if tag_name == None:
         return jsonify({
             'msg':'name is required'

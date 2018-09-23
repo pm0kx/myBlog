@@ -14,6 +14,8 @@ from app.models import User,Post,Comment
 from app.post import post,make_cache_key
 from app.common.db import db
 
+from flask_restful import Resource
+from app.common.extensions import restful_api
 
 logger = logger.Logger(logger="api-comments").getlog()
 
@@ -41,7 +43,7 @@ def get_comment_by_id(id):
     return jsonify(comment.to_json())
 
 
-@api.route('/posts/<string:id>/comments/')
+@api.route('/posts/<string:id>/comments/', methods=['POST','GET'])
 def get_post_comments(id):
     post = Post.query.get_or_404(id)
     if post ==None:
@@ -78,31 +80,25 @@ def new_post_comment(id):
     return jsonify(comment.to_json())
 
 def del_comment(id):
-    pass
+    comment = Comment.query.get_or_404(id)
+    if comment ==None:
+        return jsonify({
+        'code': 1,
+        'msg': 'not exist'
+        })
 
-# @post.route('/add_comment/<string:post_id>', methods=('GET', 'POST'))
-# @cache.cached(timeout=60, key_prefix=make_cache_key)
-# def add_comment(post_id):
-#     """View function for post page"""
+    comment.delete()
+    return jsonify({
+        'code': 0,
+        'msg': 'ok'
+        })
 
-#     # Form object: `Comment`
-#     form = CommentForm()
-#     # form.validate_on_submit() will be true and return the
-#     # data object to form instance from user enter,
-#     # when the HTTP request is POST
-#     if form.validate_on_submit():
-#         new_comment = Comment(form.name.data)
-#         new_comment.text = form.text.data
-#         new_comment.date = datetime.datetime.now()
-#         new_comment.post_id = post_id
-#         db.session.add(new_comment)
-#         db.session.commit()
-#         return redirect(url_for('post.list'))
 
-#     post = Post.query.get_or_404(post_id)
-#     # tags = post.tags
-#     # comments = post.comments.order_by(Comment.date.desc()).all()
+@api.route('/list/', methods=['GET'])
+def list_test():
+    from app.common.db_utils import pages
+    from app.common.custom_response import R
 
-#     return render_template('post/add_comment.html',
-#                            post=post,
-#                            form=form)
+    page = pages(Comment,request,sort_by=('created_time','desc'))
+    data = R.ok(page.result).put('count', page.total)
+    return jsonify(data)
